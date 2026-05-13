@@ -1,0 +1,6 @@
+ip,total_events,failed_logins,privileged_attempts,external_events,suspicious_events,risk_score,risk_level
+203.0.113.77,5,5,5,5,5,30,high
+198.51.100.25,4,4,4,4,4,24,high
+203.0.113.10,3,3,0,3,3,12,medium
+192.168.1.10,2,0,0,0,0,0,none
+192.168.1.11,2,0,0,0,0,0,none

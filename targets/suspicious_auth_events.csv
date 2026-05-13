@@ -1,0 +1,13 @@
+date,time,level,user,action,status,ip,is_failed_login,is_privileged_user,is_private_ip,is_external_ip,suspicious_event
+2026-05-11,08:03:44,WARN,guest,login,failed,203.0.113.10,True,False,False,True,True
+2026-05-11,08:04:01,WARN,guest,login,failed,203.0.113.10,True,False,False,True,True
+2026-05-11,08:04:22,WARN,guest,login,failed,203.0.113.10,True,False,False,True,True
+2026-05-11,08:05:02,WARN,admin,login,failed,198.51.100.25,True,True,False,True,True
+2026-05-11,08:05:21,WARN,admin,login,failed,198.51.100.25,True,True,False,True,True
+2026-05-11,08:05:50,WARN,admin,login,failed,198.51.100.25,True,True,False,True,True
+2026-05-11,08:06:13,WARN,admin,login,failed,198.51.100.25,True,True,False,True,True
+2026-05-11,08:12:33,WARN,root,login,failed,203.0.113.77,True,True,False,True,True
+2026-05-11,08:13:01,WARN,root,login,failed,203.0.113.77,True,True,False,True,True
+2026-05-11,08:13:25,WARN,root,login,failed,203.0.113.77,True,True,False,True,True
+2026-05-11,08:13:52,WARN,root,login,failed,203.0.113.77,True,True,False,True,True
+2026-05-11,08:14:11,WARN,root,login,failed,203.0.113.77,True,True,False,True,True
