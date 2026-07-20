@@ -1,5 +1,5 @@
 date,time,level,user,action,status,ip
-2026-05-11,08:01:12,INFO,felimon,login,success,192.168.1.10
+2026-05-11,08:01:12,INFO,user123,login,success,192.168.1.10
 2026-05-11,08:03:44,WARN,guest,login,failed,203.0.113.10
 2026-05-11,08:04:01,WARN,guest,login,failed,203.0.113.10
 2026-05-11,08:04:22,WARN,guest,login,failed,203.0.113.10
@@ -7,7 +7,7 @@ date,time,level,user,action,status,ip
 2026-05-11,08:05:21,WARN,admin,login,failed,198.51.100.25
 2026-05-11,08:05:50,WARN,admin,login,failed,198.51.100.25
 2026-05-11,08:06:13,WARN,admin,login,failed,198.51.100.25
-2026-05-11,08:06:42,INFO,felimon,logout,success,192.168.1.10
+2026-05-11,08:06:42,INFO,user123,logout,success,192.168.1.10
 2026-05-11,08:10:03,INFO,student,login,success,192.168.1.11
 2026-05-11,08:12:33,WARN,root,login,failed,203.0.113.77
 2026-05-11,08:13:01,WARN,root,login,failed,203.0.113.77

@@ -1,4 +1,4 @@
-# Log Analysis Lab
+# Authentication Log Risk Scoring Lab
 
 A defensive cybersecurity lab that parses synthetic authentication logs and identifies suspicious login behavior with Python and pandas.
 
@@ -91,8 +91,12 @@ This lab follows a basic security analytics workflow:
 raw logs → parsed rows → feature engineering → grouping → scoring → analyst summary
 ```
 
+In a real environment, the same pattern could be applied to authentication telemetry, streaming access logs, or piracy-related signals to surface high-risk activity for further investigation.
+
 ## Current Status
 
 Phase 1 complete.
 
-The lab successfully demonstrates log parsing, detection feature engineering, and rule-based IP risk scoring.
+The lab demonstrates log parsing, detection feature engineering, and rule-based IP risk scoring.
+
+In a production environment, this pattern—log parsing, feature engineering, grouping, and risk scoring—could extend to authentication telemetry, streaming access logs, or piracy-related signals to surface high-risk activity for further investigation.
