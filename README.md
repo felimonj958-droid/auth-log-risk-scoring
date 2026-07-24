@@ -181,6 +181,16 @@ The current benchmark identified:
 - A logistic regression model that cleanly separates the synthetic benchmark.
 - An Isolation Forest model that can be discussed as triage-oriented anomaly detection.
 
+### Reading these results honestly
+
+The held-out split contains only 4 positive IPs, so perfect logistic
+regression scores indicate clean separability on this synthetic benchmark,
+not production-grade performance. The meaningful finding is the precision
+gap at equal recall: the rules baseline flags 20 false positives to catch
+all 4 attackers (0.167 precision), while the supervised model catches the
+same 4 with none. On real telemetry with adversarial drift and noisier
+benign bursts, expect substantial degradation.
+
 ## Real-world relevance
 
 This lab maps cleanly to:
@@ -201,6 +211,14 @@ python scripts/analyze_auth_events.py
 python scripts/train_and_evaluate.py
 python scripts/threshold_tuning.py
 ```
+### Reproducibility
+
+The generator is seeded (`random.Random(SEED)`) and both models use
+`random_state=42`, so running the five scripts in order reproduces the
+committed metrics exactly, including confusion matrices.
+
+`sample-logs/auth_sample.log` is an illustrative format excerpt only.
+The evaluated dataset is generated into `data/`.
 
 ## Current status
 
