@@ -1,19 +1,22 @@
 from pathlib import Path
-
 import pandas as pd
 
+CSV_PATH = Path("targets/auth_events.csv")
+LABELS_PATH = Path("data/labels.csv")
 
-CSV_PATH = Path("labs/04-log-analysis/targets/auth_events.csv")
-OUTPUT_PATH = Path("labs/04-log-analysis/targets/suspicious_auth_events.csv")
-SUMMARY_PATH = Path("labs/04-log-analysis/targets/auth_summary_by_ip.csv")
-RISK_SUMMARY_PATH = Path("labs/04-log-analysis/targets/auth_risk_summary_by_ip.csv")
+OUTPUT_PATH = Path("targets/suspicious_auth_events.csv")
+SUMMARY_PATH = Path("targets/auth_summary_by_ip.csv")
+RISK_SUMMARY_PATH = Path("targets/auth_risk_summary_by_ip.csv")
 
-
-PRIVILEGED_USERS = {"admin", "root"}
+PRIVILEGED_USERS = {"admin", "root", "svc_admin", "secops"}
 
 
 def load_events(csv_path):
     return pd.read_csv(csv_path)
+
+
+def load_labels(labels_path):
+    return pd.read_csv(labels_path)
 
 
 def add_detection_features(df):
@@ -77,29 +80,46 @@ def summarize_by_ip(df):
     summary["risk_level"] = summary["risk_score"].apply(risk_level)
 
     summary = summary.sort_values(
-        by=["risk_score", "suspicious_events"],
-        ascending=[False, False]
+        by=["risk_score", "suspicious_events", "failed_logins"],
+        ascending=[False, False, False]
     )
 
     return summary
 
 
-def save_outputs(feature_df, summary_df):
-    suspicious_df = feature_df[feature_df["suspicious_event"]]
+def merge_ground_truth(summary_df, labels_df):
+    labels_subset = labels_df[["ip", "is_attack", "attack_type"]].copy()
+
+    merged = summary_df.merge(
+        labels_subset,
+        on="ip",
+        how="left"
+    )
+
+    merged["is_attack"] = merged["is_attack"].fillna(0).astype(int)
+    merged["attack_type"] = merged["attack_type"].fillna("none")
+
+    return merged
+
+
+def save_outputs(feature_df, summary_df, final_df):
+    suspicious_df = feature_df[feature_df["suspicious_event"]].copy()
 
     OUTPUT_PATH.parent.mkdir(parents=True, exist_ok=True)
 
     suspicious_df.to_csv(OUTPUT_PATH, index=False)
     summary_df.to_csv(SUMMARY_PATH, index=False)
-    summary_df.to_csv(RISK_SUMMARY_PATH, index=False)
+    final_df.to_csv(RISK_SUMMARY_PATH, index=False)
 
     print("Auth Event Analysis")
     print("===================")
     print(f"Total events: {len(feature_df)}")
     print(f"Suspicious events: {len(suspicious_df)}")
+    print(f"Unique IPs: {feature_df['ip'].nunique()}")
+    print(f"Labeled attack IPs in final summary: {final_df['is_attack'].sum()}")
     print()
-    print("Risk Summary by IP:")
-    print(summary_df)
+    print("Top 10 Risk Summary by IP:")
+    print(final_df.head(10).to_string(index=False))
     print()
     print(f"Suspicious events saved to: {OUTPUT_PATH}")
     print(f"Summary by IP saved to: {SUMMARY_PATH}")
@@ -108,6 +128,10 @@ def save_outputs(feature_df, summary_df):
 
 if __name__ == "__main__":
     events_df = load_events(CSV_PATH)
+    labels_df = load_labels(LABELS_PATH)
+
     feature_df = add_detection_features(events_df)
     summary_df = summarize_by_ip(feature_df)
-    save_outputs(feature_df, summary_df)
+    final_df = merge_ground_truth(summary_df, labels_df)
+
+    save_outputs(feature_df, summary_df, final_df)

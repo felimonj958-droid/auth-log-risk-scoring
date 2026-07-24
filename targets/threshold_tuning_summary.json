@@ -1,0 +1,11 @@
+{
+  "false_positive_cost": 1,
+  "false_negative_cost": 25,
+  "best_threshold": 0.01,
+  "best_cost": 0,
+  "best_precision": 1.0,
+  "best_recall": 1.0,
+  "best_f1": 1.0,
+  "best_fp": 0,
+  "best_fn": 0
+}

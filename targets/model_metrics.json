@@ -1,0 +1,65 @@
+{
+  "dataset": {
+    "rows": 1214,
+    "attack_ips": 12,
+    "attack_rate": 0.0099,
+    "features": [
+      "total_events",
+      "failed_logins",
+      "privileged_attempts",
+      "external_events",
+      "suspicious_events",
+      "risk_score"
+    ]
+  },
+  "rule_baseline_medium_or_high": {
+    "accuracy": 0.9452,
+    "precision": 0.1667,
+    "recall": 1.0,
+    "f1": 0.2857,
+    "confusion_matrix": [
+      [
+        341,
+        20
+      ],
+      [
+        0,
+        4
+      ]
+    ]
+  },
+  "logistic_regression": {
+    "accuracy": 1.0,
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "confusion_matrix": [
+      [
+        361,
+        0
+      ],
+      [
+        0,
+        4
+      ]
+    ],
+    "roc_auc": 1.0
+  },
+  "isolation_forest": {
+    "accuracy": 0.9945,
+    "precision": 0.6667,
+    "recall": 1.0,
+    "f1": 0.8,
+    "confusion_matrix": [
+      [
+        359,
+        2
+      ],
+      [
+        0,
+        4
+      ]
+    ],
+    "roc_auc": 1.0
+  }
+}

@@ -1,0 +1,7 @@
+feature,coefficient
+external_events,0.5057821302031725
+total_events,0.45132369280211754
+suspicious_events,0.41659624936311324
+risk_score,0.41407210265482536
+failed_logins,0.38911715801381513
+privileged_attempts,0.07470204916790059

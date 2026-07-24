@@ -1,30 +1,18 @@
 import csv
-import re
 from pathlib import Path
 
+LOG_PATH = Path("data/raw_auth_logs.log")
+OUTPUT_PATH = Path("targets/auth_events.csv")
 
-LOG_PATH = Path("labs/04-log-analysis/sample-logs/auth_sample.log")
-OUTPUT_PATH = Path("labs/04-log-analysis/targets/auth_events.csv")
-
-
-LOG_PATTERN = re.compile(
-    r"(?P<date>\d{4}-\d{2}-\d{2}) "
-    r"(?P<time>\d{2}:\d{2}:\d{2}) "
-    r"(?P<level>\w+) "
-    r"user=(?P<user>\w+) "
-    r"action=(?P<action>\w+) "
-    r"status=(?P<status>\w+) "
-    r"ip=(?P<ip>[\d.]+)"
-)
+FIELDNAMES = ["date", "time", "level", "user", "action", "status", "ip"]
 
 
 def parse_log_line(line):
-    match = LOG_PATTERN.match(line)
-
-    if not match:
+    parts = [p.strip() for p in line.split(",")]
+    if len(parts) != 7:
         return None
 
-    return match.groupdict()
+    return dict(zip(FIELDNAMES, parts))
 
 
 def parse_log_file(log_path):
@@ -32,8 +20,11 @@ def parse_log_file(log_path):
 
     with log_path.open("r", encoding="utf-8") as log_file:
         for line in log_file:
-            parsed = parse_log_line(line.strip())
+            line = line.strip()
+            if not line:
+                continue
 
+            parsed = parse_log_line(line)
             if parsed:
                 events.append(parsed)
 
@@ -43,10 +34,8 @@ def parse_log_file(log_path):
 def save_events_to_csv(events, output_path):
     output_path.parent.mkdir(parents=True, exist_ok=True)
 
-    fieldnames = ["date", "time", "level", "user", "action", "status", "ip"]
-
     with output_path.open("w", newline="", encoding="utf-8") as csv_file:
-        writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
+        writer = csv.DictWriter(csv_file, fieldnames=FIELDNAMES)
         writer.writeheader()
         writer.writerows(events)
 
